@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EduPlatform - Login</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="login-page">
+    <div class="login-box">
+      <h1>EduPlatform</h1>
+      <p class="subtitle">Sign in to continue</p>
+
+      <!-- Role buttons -->
+      <div class="role-buttons">
+        <button class="active">Student</button>
+        <button>Teacher</button>
+        <button>Counselor</button>
+      </div>
+
+      <!-- Login Form -->
+      <form class="login-form">
+        <input type="email" placeholder="Email" required>
+        <input type="password" placeholder="Password" required>
+        <button type="submit" class="login-btn">Login</button>
+      </form>
+
+      <p class="signup-text">
+        Don’t have an account? <a href="#">Register</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- JavaScript for role selection -->
+  <script>
+    const buttons = document.querySelectorAll('.role-buttons button');
+    const form = document.querySelector('.login-form');
+
+    let selectedRole = 'Student'; // Default role
+
+    // Role selection
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        buttons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedRole = btn.textContent.trim();
+      });
+    });
+
+    // Form submission
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (selectedRole === 'Student') {
+        window.location.href = 'dashboard.html';
+      } else if (selectedRole === 'Teacher') {
+        window.location.href = 'teacher.html';
+      } else if (selectedRole === 'Counselor') {
+        window.location.href = 'counselor.html';
+      }
+    });
+  </script>
+
+</body>
+</html>
+
