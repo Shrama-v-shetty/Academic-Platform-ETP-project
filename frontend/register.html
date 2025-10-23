@@ -5,10 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Register | Portal</title>
   <link rel="stylesheet" href="style.css">
-
 </head>
 <body>
-  <div class="container">
+  <div class="register-page">
     <form class="form-box">
       <h2>Create Account</h2>
 
@@ -20,6 +19,16 @@
       <div class="input-group">
         <label for="email">Email</label>
         <input type="email" id="email" placeholder="Enter your email" required />
+      </div>
+
+      <div class="input-group">
+        <label for="role">Select Role</label>
+        <select id="role" required>
+          <option value="">-- Select Role --</option>
+          <option value="student">Student</option>
+          <option value="teacher">Teacher</option>
+          <option value="counselor">Counselor</option>
+        </select>
       </div>
 
       <div class="input-group">
@@ -35,8 +44,7 @@
       <button type="submit" class="btn">Register</button>
 
       <p class="link-text">
-        Already have an account?
-        <a href="index.html">Login here</a>
+        Already have an account? <a href="index.html">Login here</a>
       </p>
     </form>
   </div>
