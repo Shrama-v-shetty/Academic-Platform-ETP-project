@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Course | Student Support Portal</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="bg"></div>
+<div class="orb orb-a"></div>
+<div class="orb orb-b"></div>
+
+<div class="main" style="padding:40px; max-width:900px; margin:auto;">
+
+  <!-- Header -->
+  <div class="glass" style="padding:16px; display:flex; justify-content:space-between; align-items:center;">
+    <button class="btn-outline" onclick="window.location.href='courses.html'">← Back to Courses</button>
+    <h2 id="courseTitle" style="margin:0;"></h2>
+  </div>
+
+  <!-- Content / Quiz -->
+  <div class="glass" style="padding:20px; margin-top:18px;">
+    <h3>📘 Course Content</h3>
+    <p class="muted">Video lectures, reading material, and practice notes will appear here.</p>
+    <button class="btn" style="margin-top:12px;">Open Learning Material</button>
+  </div>
+
+  <div class="glass" style="padding:20px; margin-top:18px;">
+    <h3>📝 Quiz</h3>
+    <p class="muted">Test your understanding with quick quizzes.</p>
+    <button class="btn" style="margin-top:12px;">Start Quiz</button>
+  </div>
+
+</div>
+
+<script>
+const courses = {
+  1: "Introduction to Psychology",
+  2: "Mindful Study Techniques",
+  3: "Emotional Intelligence Basics",
+  4: "Stress-Free Exam Preparation"
+};
+
+const id = localStorage.getItem("openedCourse");
+document.getElementById("courseTitle").textContent = courses[id] || "Course";
+</script>
+
+</body>
+</html>
