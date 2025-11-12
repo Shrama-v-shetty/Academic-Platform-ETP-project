@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mental Health Resources | Student Support Portal</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="bg"></div>
+<div class="orb orb-a"></div>
+<div class="orb orb-b"></div>
+
+<div class="main" style="padding:40px; max-width:900px; margin:auto;">
+
+  <!-- Top Bar -->
+  <div class="glass" style="padding:16px; display:flex; align-items:center; justify-content:space-between;">
+    <button class="btn-outline" onclick="window.location.href='index.html'">← Go Back</button>
+    <h2 style="margin:0;">Mental Health & Wellness</h2>
+  </div>
+
+  <p class="muted" style="margin-top:10px; margin-bottom:22px;">
+    Take a moment to pause, breathe, and explore helpful guides for your emotional well-being.
+  </p>
+
+  <!-- PDF List -->
+  <div class="grid" style="grid-template-columns: repeat(2, minmax(250px, 1fr)); gap:20px;">
+
+    <!-- PDF 1 -->
+    <div class="card glass" style="padding:20px;">
+      <h3>Managing Stress</h3>
+      <p class="muted">Learn practical techniques to stay calm & balanced.</p>
+      <button class="btn" onclick="openPDF('pdfs/stress-guide.pdf')">Open Guide</button>
+    </div>
+
+    <!-- PDF 2 -->
+    <div class="card glass" style="padding:20px;">
+      <h3>Mindfulness Basics</h3>
+      <p class="muted">Develop focus and emotional clarity through awareness.</p>
+      <button class="btn" onclick="openPDF('pdfs/mindfulness.pdf')">Open Guide</button>
+    </div>
+
+    <!-- PDF 3 -->
+    <div class="card glass" style="padding:20px;">
+      <h3>Healthy Study-Life Balance</h3>
+      <p class="muted">Create routines that support health, not burnout.</p>
+      <button class="btn" onclick="openPDF('pdfs/study-life-balance.pdf')">Open Guide</button>
+    </div>
+
+    <!-- PDF 4 -->
+    <div class="card glass" style="padding:20px;">
+      <h3>Overthinking Relief</h3>
+      <p class="muted">Steps to calm the mind and regain clarity.</p>
+      <button class="btn" onclick="openPDF('pdfs/overthinking.pdf')">Open Guide</button>
+    </div>
+
+  </div>
+
+  <!-- General Encouragement -->
+  <div class="glass" style="margin-top:30px; padding:18px; text-align:center; border-radius:16px;">
+    <p class="muted">💚 Remember: Progress is a journey. You’re not alone — one step at a time.</p>
+  </div>
+
+</div>
+
+<script>
+function openPDF(file){
+  window.open(file, "_blank");
+}
+</script>
+
+</body>
+</html>
