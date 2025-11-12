@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student - Mentor Chat | ThriveCampus</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="bg"></div>
+<div class="orb orb-a"></div>
+<div class="orb orb-b"></div>
+
+<div class="main" style="padding:40px; max-width:900px; margin:auto;">
+  
+  <div class="glass" style="padding:16px; display:flex; justify-content:space-between; align-items:center;">
+    <button class="btn-outline" onclick="window.location.href='index.html'">← Go Back</button>
+    <h2 id="mentorName">Your Mentor</h2>
+  </div>
+
+  <div class="glass" style="padding:20px; margin-top:16px;">
+    <h3>Query</h3>
+    <textarea id="studentQuery" placeholder="Type your query..." style="width:100%; height:80px; border-radius:10px; padding:10px;"></textarea>
+    <button class="btn" style="margin-top:10px;" onclick="sendQuery()">Send Query</button>
+  </div>
+
+  <div class="glass" style="padding:20px; margin-top:16px;">
+    <h3>Response from Teacher</h3>
+    <p id="responseArea" class="muted">No response yet.</p>
+  </div>
+
+  <div class="glass" style="padding:20px; margin-top:16px;">
+    <h3>Guidance</h3>
+    <p id="guidanceArea" class="muted">No guidance yet.</p>
+  </div>
+
+</div>
+
+<script>
+const mentor = "Assigned Teacher"; // You can store from login
+document.getElementById("mentorName").textContent = mentor;
+
+const studentName = localStorage.getItem("studentName") || "Student";
+
+// Query
+function sendQuery() {
+  const text = document.getElementById("studentQuery").value.trim();
+  if (!text) return;
+  const key = "query_" + studentName;
+  const existing = JSON.parse(localStorage.getItem(key)) || [];
+  existing.push(text);
+  localStorage.setItem(key, JSON.stringify(existing));
+  alert("Query sent to teacher!");
+  document.getElementById("studentQuery").value = "";
+}
+
+// Load responses
+function loadData() {
+  const response = localStorage.getItem("response_" + studentName);
+  const guidance = localStorage.getItem("guidance_" + studentName);
+
+  document.getElementById("responseArea").textContent = response || "No response yet.";
+  document.getElementById("guidanceArea").textContent = guidance || "No guidance yet.";
+}
+loadData();
+</script>
+
+</body>
+</html>
