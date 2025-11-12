@@ -2,44 +2,82 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>EduPlatform - Courses</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Courses | Student Support Portal</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-  <header class="topbar">
-    <h2>My Courses</h2>
-    <a href="dashboard.html" class="back-link">← Dashboard</a>
-  </header>
+<div class="bg"></div>
+<div class="orb orb-a"></div>
+<div class="orb orb-b"></div>
 
-  <div class="modules">
-    <h3>Computer Science Fundamentals</h3>
-    <ul>
-      <li>
-        <div>
-          <strong>Introduction to Programming</strong>
-          <p>45 min</p>
-        </div>
-        <button class="completed">Completed</button>
-      </li>
+<div class="main" style="padding:40px; max-width:900px; margin:auto;">
 
-      <li>
-        <div>
-          <strong>Variables and Data Types</strong>
-          <p>60 min</p>
-        </div>
-        <button class="completed">Completed</button>
-      </li>
-
-      <li>
-        <div>
-          <strong>Control Flow</strong>
-          <p>75 min</p>
-        </div>
-        <button class="start">Start</button>
-      </li>
-    </ul>
+  <!-- Top Bar -->
+  <div class="glass" style="padding:16px; display:flex; justify-content:space-between; align-items:center;">
+    <button class="btn-outline" onclick="window.location.href='index.html'">← Go Back</button>
+    <h2 style="margin:0;">Courses</h2>
+    <button class="btn-outline" onclick="window.location.href='mental-health.html'">💚 Wellness</button>
   </div>
+
+  <p class="muted" style="margin-top:12px;">Browse and register for your courses.</p>
+
+  <!-- Courses List -->
+  <div id="courseList" style="margin-top:20px;"></div>
+
+</div>
+
+<script>
+const courses = [
+  { id: 1, name: "FSD" },
+  { id: 2, name: "CN" },
+  { id: 3, name: "ETC" },
+  { id: 4, name: "CN" }
+];
+
+const registered = JSON.parse(localStorage.getItem("registeredCourses") || "[]");
+
+function updateUI(){
+  const list = document.getElementById("courseList");
+  list.innerHTML = "";
+
+  courses.forEach(course => {
+    const isRegistered = registered.includes(course.id);
+
+    const card = document.createElement("div");
+    card.className = "card glass";
+    card.style.marginBottom = "14px";
+    card.style.padding = "18px";
+
+    card.innerHTML = `
+      <h3>${course.name}</h3>
+      <p class="muted">${isRegistered ? "You are enrolled in this course." : "Click register to enroll."}</p>
+      <button class="btn" onclick="handleCourse(${course.id})">
+        ${isRegistered ? "Registered ✅" : "Register"}
+      </button>
+    `;
+
+    if(isRegistered){
+      card.onclick = () => {
+        localStorage.setItem("openedCourse", course.id);
+        window.location.href = "course.html";
+      };
+    }
+
+    list.appendChild(card);
+  });
+}
+
+function handleCourse(id){
+  if(!registered.includes(id)){
+    registered.push(id);
+    localStorage.setItem("registeredCourses", JSON.stringify(registered));
+  }
+  updateUI();
+}
+
+updateUI();
+</script>
 
 </body>
 </html>
