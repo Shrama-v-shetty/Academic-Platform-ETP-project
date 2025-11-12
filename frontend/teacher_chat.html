@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Teacher - Student Chat | ThriveCampus</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="bg"></div>
+<div class="orb orb-a"></div>
+<div class="orb orb-b"></div>
+
+<div class="main" style="padding:40px; max-width:900px; margin:auto;">
+
+  <div class="glass" style="padding:16px; display:flex; justify-content:space-between; align-items:center;">
+    <button class="btn-outline" onclick="window.location.href='teacher.html'">← Back</button>
+    <h2 id="studentName"></h2>
+  </div>
+
+  <div class="glass" style="margin-top:20px; padding:20px;">
+    <h3>Student Query</h3>
+    <div id="queryArea" style="padding:10px; background:rgba(255,255,255,0.08); border-radius:10px; margin-bottom:12px;"></div>
+
+    <h3>Your Response</h3>
+    <textarea id="responseInput" placeholder="Type your response..." style="width:100%; height:80px; border-radius:10px; padding:10px;"></textarea>
+    <button class="btn" style="margin-top:10px;" onclick="sendResponse()">Send Response</button>
+
+    <h3 style="margin-top:20px;">Guidance</h3>
+    <textarea id="guidanceInput" placeholder="Add guidance or advice..." style="width:100%; height:60px; border-radius:10px; padding:10px;"></textarea>
+    <button class="btn" style="margin-top:10px;" onclick="sendGuidance()">Send Guidance</button>
+  </div>
+
+</div>
+
+<script>
+const studentName = localStorage.getItem("teacherChatStudent");
+document.getElementById("studentName").textContent = `Chat with ${studentName}`;
+
+// Load student queries (from student chat)
+const queryKey = "query_" + studentName;
+const queries = JSON.parse(localStorage.getItem(queryKey)) || [];
+const queryArea = document.getElementById("queryArea");
+
+function refreshQueries() {
+  queryArea.innerHTML = queries.length === 0 ? "<p class='muted'>No queries yet.</p>" : "";
+  queries.forEach(q => {
+    const p = document.createElement("p");
+    p.textContent = q;
+    queryArea.appendChild(p);
+  });
+}
+refreshQueries();
+
+function sendResponse() {
+  const text = document.getElementById("responseInput").value.trim();
+  if (!text) return;
+  localStorage.setItem("response_" + studentName, text);
+  alert("Response sent!");
+  document.getElementById("responseInput").value = "";
+}
+
+function sendGuidance() {
+  const text = document.getElementById("guidanceInput").value.trim();
+  if (!text) return;
+  localStorage.setItem("guidance_" + studentName, text);
+  alert("Guidance sent!");
+  document.getElementById("guidanceInput").value = "";
+}
+</script>
+
+</body>
+</html>
