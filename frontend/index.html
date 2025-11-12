@@ -1,66 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>EduPlatform - Login</title>
-  <link rel="stylesheet" href="style.css">
-  
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard | ThriveCampus</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"> -->
 </head>
 <body>
 
-  <div class="login-page">
-    <div class="login-box">
-      <h1>EduPlatform</h1>
-      <p class="subtitle">Sign in to continue</p>
+  <div class="bg"></div>
+  <div class="orb orb-a"></div>
+  <div class="orb orb-b"></div>
+  <div class="app">
 
-      <!-- Role buttons -->
-      <div class="role-buttons">
-        <button class="active">Student</button>
-        <button>Teacher</button>
-        <button>Counselor</button>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      
+      
+      <div class="brand brand--stack">
+        <img src="logo.png.jpg" alt="ThriveCampus Logo" class="brand-logo">
+
+        <span class="brand-name">THRIVECAMPUS</span><br>
+        <span class="brand-tagline">Where Education Meets Emotional Wellbeing</span>
       </div>
 
-      <!-- Login Form -->
-      <form class="login-form">
-        <input type="email" placeholder="Email" required>
-        <input type="password" placeholder="Password" required>
-        <button type="submit" class="login-btn">Login</button>
-      </form>
-      
-      <p class="signup-text">
-        Don’t have an account? <a href="register.html">Register</a>
-      </p>
-    </div>
+      <nav class="side-nav">
+          <a class="side-link active" href="dashboard.html">🏠 Dashboard</a>
+          <a class="side-link" href="courses.html">📚 Courses</a>
+          <a class="side-link" href="mentors.html">👨‍🏫 Mentors</a>
+          <a class="side-link" href="mental.html">💚 Mental Wellness</a>
+          <a class="side-link" href="chat.html">🤖 Chatbot</a>
+          <!-- <a class="side-link" href="settings.html"> Settings</a> -->
+          <a class="side-link" href="login.html">🚪 Logout</a>
+          <!-- <a class="side-link" href="login.html">Login</a> -->
+      </nav>
+
+
+      <!-- DAILY QUOTE -->
+      <!-- <div class="mini-note">
+        <p class="mini-title">Daily Spark ✨</p>
+        <p id="dailyQuote" class="mini-quote">Keep going, your story isn't over.</p>
+      </div> -->
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <h1 class="top-title">Student Dashboard</h1>
+        <div class="top-actions">
+          <!-- <span class="hello">Hello, <strong id="studentName">Student</strong></span> -->
+          <!-- <button class="btn-outline" id="btnLogout">Logout</button> -->
+           <a class="side-link" href="login.html">🚪 Logout</a>
+        </div>
+      </header>
+
+      <!-- WELCOME -->
+      <section class="welcome glass">
+        <div>
+          <h2>Welcome back user</h2>
+          <!-- <p class="muted">Always here to support your learning and well-being.</p> -->
+        </div>
+        <!-- <div class="wellness-pill" id="wellnessPill">“Keep moving forward.”</div> -->
+      </section>
+
+      <!-- FEATURE CARDS -->
+      <section class="grid">
+
+        <section class="card glass">
+          <div class="card-icon">📚</div>
+          <h3>Courses</h3>
+          <span>learning and track progress.</span>
+          <a href="courses.html"class="btn">Continue learning</a>
+        </section>
+
+        <section class="card glass">
+          <div class="card-icon">👨‍🏫</div>
+          <h3>Mentors</h3>
+          <p class="muted">Connect with helpful mentors.</p>
+          <a href="mentor.html"class="btn">Meet Mentor</a>
+        </section>
+
+        <section class="card glass">
+          <div class="card-icon">💚</div>
+          <h3>Mental Wellness</h3>
+          <p class="muted">Short guides to support emotional wellbeing.</p>
+          <!-- <button class="btn" id="openPDF">Open Wellness Guides</button> -->
+           <a href="mental.html"class="btn">Wellness Guides</a>
+        </section>
+
+        <section class="card glass">
+          <div class="card-icon">🤖</div>
+          <h3>Chatbot</h3>
+          <p class="muted">Ask for help anytime.</p>
+          <button class="btn" id="openChat">Start Chat</button>
+        </section>
+
+      </section>
+ 
+       <footer class="footer muted">
+        © <span id="year"></span> ThriveCampus
+      </footer> 
+
+    </main>
   </div>
 
-  <!-- JavaScript for role selection -->
   <script>
-    const buttons = document.querySelectorAll('.role-buttons button');
-    const form = document.querySelector('.login-form');
+    // Show Name
+    document.getElementById("studentName").textContent =
+      localStorage.getItem("studentName") || "Student";
 
-    let selectedRole = 'Student'; // Default role
+    // Year
+    document.getElementById("year").textContent = new Date().getFullYear();
 
-    // Role selection
-    buttons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        buttons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        selectedRole = btn.textContent.trim();
-      });
-    });
+    // Daily Quote
+    const quotes = [
+      "Progress > perfection.",
+      "You’re improving every day.",
+      "Small steps matter.",
+      "You’re not alone.",
+      "Your effort counts."
+    ];
+    const i = Math.floor((Date.now()/86400000)) % quotes.length;
+    document.getElementById("dailyQuote").textContent = quotes[i];
+    document.getElementById("wellnessPill").textContent = `“${quotes[i]}”`;
 
-    // Form submission
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      if (selectedRole === 'Student') {
-        window.location.href = 'dashboard.html';
-      } else if (selectedRole === 'Teacher') {
-        window.location.href = 'teacher.html';
-      } else if (selectedRole === 'Counselor') {
-        window.location.href = 'counselor.html';
-      }
-    });
-  </script>
+    // Navigation
+    document.getElementById("openCourses").onclick =
+    document.getElementById("navCourses").onclick = () => location.href = "courses.html";
+
+    document.getElementById("openMentors").onclick =
+    document.getElementById("navMentors").onclick = () => location.href = "mentors.html";
+
+    document.getElementById("openPDF").onclick =
+    document.getElementById("navPDF").onclick = () => location.href = "mental-health.html";
+
+    document.getElementById("openChat").onclick =
+    document.getElementById("navChat").onclick = () => location.href = "chat.html";
+
+    document.getElementById("btnLogout").onclick =
+    document.getElementById("navLogout").onclick = () => {
+      localStorage.clear();
+      location.href = "../index.html";
+    };
+  </script> 
 
 </body>
 </html>
