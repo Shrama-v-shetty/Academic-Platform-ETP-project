@@ -2,17 +2,82 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Teacher Dashboard</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Teacher Dashboard | ThriveCampus</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <header class="topbar">
-    <h2>Teacher Dashboard</h2>
-    <a href="index.html" class="logout">Logout</a>
-  </header>
-  <div style="padding: 2rem;">
-    <h3>Welcome, Teacher!</h3>
-    <p>This is your dashboard.</p>
-  </div>
+
+<div class="bg"></div>
+<div class="orb orb-a"></div>
+<div class="orb orb-b"></div>
+
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand brand--stack">
+      <img src="logo.png.jpg" alt="ThriveCampus Logo" class="brand-logo">
+      <span class="brand-name">THRIVECAMPUS</span><br>
+      <span class="brand-tagline">Teacher Dashboard</span>
+    </div>
+
+    <nav class="side-nav">
+      <a class="side-link active" href="teacher.html">🏠 Dashboard</a>
+      <a class="side-link" href="login.html">🚪 Logout</a>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <h1 class="top-title">Teacher Dashboard</h1>
+      <div class="top-actions">
+        <a class="side-link" href="login.html">🚪 Logout</a>
+      </div>
+    </header>
+
+    <section class="welcome glass">
+      <div>
+        <h2>Welcome, Teacher</h2>
+        <p class="muted">View student queries and respond to them.</p>
+      </div>
+    </section>
+
+    <!-- Student Queries Section -->
+    <section id="studentList" class="grid"></section>
+
+  </main>
+</div>
+
+<script>
+// Example registered students
+const students = JSON.parse(localStorage.getItem("studentsUnderTeacher")) || [
+  { name: "A", email: "a@example.com" },
+  { name: "B", email: "b@example.com" }
+];
+
+// Generate student cards
+function loadStudents() {
+  const list = document.getElementById("studentList");
+  list.innerHTML = "";
+  students.forEach(student => {
+    const card = document.createElement("section");
+    card.className = "card glass";
+    card.style.padding = "16px";
+    card.innerHTML = `
+      <h3>${student.name}</h3>
+      <p class="muted">${student.email}</p>
+      <button class="btn" onclick="openChat('${student.name}')">Open Query</button>
+    `;
+    list.appendChild(card);
+  });
+}
+
+// Open chat window for teacher to respond
+function openChat(studentName) {
+  localStorage.setItem("teacherChatStudent", studentName);
+  window.location.href = "teacher_chat.html";
+}
+
+loadStudents();
+</script>
+
 </body>
 </html>
