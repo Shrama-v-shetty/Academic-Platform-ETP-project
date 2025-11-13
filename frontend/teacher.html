@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Teacher Dashboard | ThriveCampus</title>
+  <title>Teacher Dashboard | EduPlatform</title>
   <link rel="stylesheet" href="style1.css">
 </head>
 <body>
@@ -12,73 +12,69 @@
 <div class="orb orb-b"></div>
 
 <div class="app">
+  <!-- Sidebar -->
   <aside class="sidebar">
     <div class="brand brand--stack">
-      <img src="logo.png.jpg" alt="ThriveCampus Logo" class="brand-logo">
-      <span class="brand-name">THRIVECAMPUS</span><br>
+      <img src="logo.png.jpg" alt="EduPlatform Logo" class="brand-logo">
+      <span class="brand-name">EDUPLATFORM</span><br>
       <span class="brand-tagline">Teacher Dashboard</span>
     </div>
 
     <nav class="side-nav">
       <a class="side-link active" href="teacher.html">🏠 Dashboard</a>
+      <a class="side-link" href="teacher_courses.html">📚 Courses</a>
+      <a class="side-link" href="teacher_mentors.html">👨‍🏫 Mentors</a>
+      <a class="side-link" href="teacher_chat.html">💬 Chat</a>
       <a class="side-link" href="login.html">🚪 Logout</a>
     </nav>
   </aside>
 
+  <!-- Main Section -->
   <main class="main">
     <header class="topbar">
       <h1 class="top-title">Teacher Dashboard</h1>
-      <div class="top-actions">
-        <a class="side-link" href="login.html">🚪 Logout</a>
-      </div>
+      <a class="btn-outline" href="login.html">Logout</a>
     </header>
 
     <section class="welcome glass">
       <div>
-        <h2>Welcome, Teacher</h2>
-        <p class="muted">View student queries and respond to them.</p>
+        <h2>Welcome, Teacher 👩‍🏫</h2>
+        <p class="muted">Manage your courses, mentors, and student queries all in one place.</p>
       </div>
     </section>
 
-    <!-- Student Queries Section -->
-    <section id="studentList" class="grid"></section>
+    <section class="grid">
+      <section class="card glass">
+        <div class="card-icon">📚</div>
+        <h3>Courses</h3>
+        <p class="muted">Add, update, or view enrolled students.</p>
+        <a href="teacher_courses.html" class="btn">Manage Courses</a>
+      </section>
 
+      <section class="card glass">
+  <div class="card-icon">👥</div>
+  <h3>Students</h3>
+  <p class="muted">View all registered students.</p>
+  <a href="teacher_students.html" class="btn">View Students</a>
+</section>
+
+      <section class="card glass">
+        <div class="card-icon">💬</div>
+        <h3>Chat</h3>
+        <p class="muted">Respond to student queries and give guidance.</p>
+        <a href="teacher_chat.html" class="btn">Open Chat</a>
+      </section>
+    </section>
+
+    <footer class="footer muted">
+      © <span id="year"></span> EduPlatform
+    </footer>
   </main>
 </div>
 
 <script>
-// Example registered students
-const students = JSON.parse(localStorage.getItem("studentsUnderTeacher")) || [
-  { name: "A", email: "a@example.com" },
-  { name: "B", email: "b@example.com" }
-];
-
-// Generate student cards
-function loadStudents() {
-  const list = document.getElementById("studentList");
-  list.innerHTML = "";
-  students.forEach(student => {
-    const card = document.createElement("section");
-    card.className = "card glass";
-    card.style.padding = "16px";
-    card.innerHTML = `
-      <h3>${student.name}</h3>
-      <p class="muted">${student.email}</p>
-      <button class="btn" onclick="openChat('${student.name}')">Open Query</button>
-    `;
-    list.appendChild(card);
-  });
-}
-
-// Open chat window for teacher to respond
-function openChat(studentName) {
-  localStorage.setItem("teacherChatStudent", studentName);
-  window.location.href = "teacher_chat.html";
-}
-
-loadStudents();
+  document.getElementById("year").textContent = new Date().getFullYear();
 </script>
 
 </body>
 </html>
-
