@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Teacher – Course Panel</title>
+  <link rel="stylesheet" href="style1.css">
+</head>
+<body>
+
+<div class="bg"></div>
+<div class="orb orb-a"></div>
+<div class="orb orb-b"></div>
+
+<div class="main" style="padding:40px; max-width:950px; margin:auto;">
+
+  <!-- TOP BAR -->
+  <div class="glass" style="
+      padding:16px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;">
+    <a href="teacher_courses.html" class="btn-outline">← Go Back</a>
+    <h2 id="courseTitle" style="margin:0;">Course Panel</h2>
+    <span></span>
+  </div>
+
+  <!-- 4 Options (From Notebook Sketch) -->
+  <div class="grid" style="margin-top:30px;">
+
+    <!-- Add Content -->
+    <div class="card glass">
+      <div class="card-icon">📄</div>
+      <h3>Add Content</h3>
+      <p class="muted">Upload notes, videos, or text material for students.</p>
+      <button class="btn" onclick="openContent()">Open</button>
+    </div>
+
+    <!-- Add Quiz -->
+    <div class="card glass">
+      <div class="card-icon">📝</div>
+      <h3>Add Quiz</h3>
+      <p class="muted">Create quiz questions for this course.</p>
+      <button class="btn" onclick="openQuiz()">Add Quiz</button>
+    </div>
+
+    <!-- Leaderboard -->
+    <div class="card glass">
+      <div class="card-icon">🏆</div>
+      <h3>Leaderboard</h3>
+      <p class="muted">Top scoring students in quiz and tasks.</p>
+      <button class="btn" onclick="openLeaderboard()">View</button>
+    </div>
+
+    <!-- People -->
+    <div class="card glass">
+      <div class="card-icon">👥</div>
+      <h3>People</h3>
+      <p class="muted">View all students registered for this course.</p>
+      <button class="btn" onclick="openPeople()">View Students</button>
+    </div>
+
+  </div>
+
+  <!-- Dynamic Output Section -->
+  <div id="outputSection" style="margin-top:30px;"></div>
+
+</div>
+
+<script>
+// Get selected course ID
+const courseId = localStorage.getItem("openCourseId");
+
+// Get teacher courses
+const courses = JSON.parse(localStorage.getItem("teacherCourses") || "[]");
+
+// Display course name
+const courseObj = courses.find(c => c.id == courseId);
+document.getElementById("courseTitle").textContent = 
+  courseObj ? courseObj.name + " – Course Panel" : "Course Panel";
+
+
+// ----------------------
+// 1. ADD CONTENT PANEL
+// ----------------------
+function openContent(){
+  const box = document.getElementById("outputSection");
+  box.innerHTML = `
+    <div class="glass" style="padding:20px;">
+      <h3>Add Course Content</h3>
+      <textarea id="contentText" 
+        placeholder="Write notes, paste link or upload content..."
+        style="width:100%; height:150px; padding:10px; border-radius:10px;"></textarea>
+      <button class="btn" style="margin-top:12px;" onclick="saveContent()">Save</button>
+    </div>
+  `;
+}
+
+function saveContent(){
+  const text = document.getElementById("contentText").value.trim();
+  if(!text) return alert("Enter content before saving!");
+  localStorage.setItem("content_" + courseId, text);
+  alert("Content Saved!");
+}
+
+
+// ----------------------
+// 2. ADD QUIZ PANEL
+// ----------------------
+function openQuiz(){
+  const box = document.getElementById("outputSection");
+  box.innerHTML = `
+    <div class="glass" style="padding:20px;">
+      <h3>Add Quiz Question</h3>
+
+      <input id="quizQ" placeholder="Enter question" 
+          style="width:100%; padding:10px; margin-top:10px; border-radius:10px;">
+
+      <input id="quizA" placeholder="Enter correct answer" 
+          style="width:100%; padding:10px; margin-top:10px; border-radius:10px;">
+
+      <button class="btn" style="margin-top:12px;" onclick="saveQuiz()">Add Question</button>
+    </div>
+  `;
+}
+
+function saveQuiz(){
+  const q = document.getElementById("quizQ").value.trim();
+  const a = document.getElementById("quizA").value.trim();
+  if(!q || !a) return alert("Enter question + answer!");
+
+  let quiz = JSON.parse(localStorage.getItem("quiz_"+courseId) || "[]");
+  quiz.push({question:q, answer:a});
+  localStorage.setItem("quiz_"+courseId, JSON.stringify(quiz));
+
+  alert("Quiz Question Added!");
+}
+
+
+// ----------------------
+// 3. LEADERBOARD PANEL
+// ----------------------
+function openLeaderboard(){
+  const box = document.getElementById("outputSection");
+
+  // Example student scores
+  let scores = JSON.parse(localStorage.getItem("scores_"+courseId) || "[]");
+
+  if(scores.length === 0){
+    scores = [
+      {name:"Alice", score:80},
+      {name:"Bob", score:60},
+      {name:"Chris", score:45}
+    ];
+    localStorage.setItem("scores_"+courseId, JSON.stringify(scores));
+  }
+
+  let html = `
+    <div class="glass" style="padding:20px;">
+      <h3>Leaderboard</h3>
+      <table style="width:100%; margin-top:20px;">
+        <tr style="background:rgba(255,255,255,0.15);">
+          <th style="padding:10px;">Rank</th>
+          <th style="padding:10px;">Student</th>
+          <th style="padding:10px;">Score</th>
+        </tr>
+  `;
+
+  scores.sort((a,b)=>b.score-a.score);
+
+  scores.forEach((s,i)=>{
+    html += `
+      <tr>
+        <td style="padding:10px;">${i+1}</td>
+        <td style="padding:10px;">${s.name}</td>
+        <td style="padding:10px;">${s.score}</td>
+      </tr>
+    `;
+  });
+
+  html += `</table></div>`;
+  box.innerHTML = html;
+}
+
+
+// ----------------------
+// 4. PEOPLE (Students)
+// ----------------------
+function openPeople(){
+  const box = document.getElementById("outputSection");
+
+  let students = JSON.parse(
+    localStorage.getItem("studentsRegistered") || "[]"
+  ).filter(s => s.courseId == courseId);
+
+  let html = `
+    <div class="glass" style="padding:20px;">
+      <h3>Registered Students</h3>
+      <table style="width:100%; margin-top:20px;">
+        <tr style="background:rgba(255,255,255,0.15);">
+          <th style="padding:10px;">Name</th>
+          <th style="padding:10px;">Email</th>
+          <th style="padding:10px;">View Query</th>
+        </tr>
+  `;
+
+  students.forEach(st=>{
+    html += `
+      <tr>
+        <td style="padding:10px;">${st.name}</td>
+        <td style="padding:10px;">${st.email}</td>
+        <td style="padding:10px;">
+          <button class="btn" onclick="openChat('${st.name}')">Open</button>
+        </td>
+      </tr>
+    `;
+  });
+
+  html += `</table></div>`;
+  box.innerHTML = html;
+}
+
+function openChat(studentName){
+  localStorage.setItem("teacherChatStudent", studentName);
+  window.location.href = "teacher_chat.html";
+}
+</script>
+
+</body>
+</html>
