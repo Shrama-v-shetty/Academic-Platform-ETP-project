@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Teacher – Mentor Students</title>
+  <link rel="stylesheet" href="style1.css">
+</head>
+<body>
+
+<div class="bg"></div>
+<div class="orb orb-a"></div>
+<div class="orb orb-b"></div>
+
+<div class="main" style="padding:40px; max-width:1000px; margin:auto;">
+
+  <!-- TOP BAR -->
+  <div class="glass" style="
+    padding:16px; 
+    display:flex; 
+    justify-content:space-between; 
+    align-items:center;">
+    <a href="teacher.html" class="btn-outline">← Go Back</a>
+    <h2 style="margin:0;">Mentors</h2>
+    <span></span>
+  </div>
+
+  <p class="muted" style="margin-top:12px;">Select a mentor to view their students.</p>
+
+  <!-- Mentor dropdown -->
+  <div class="glass" style="padding:20px; margin-top:20px;">
+    <label><strong>Select Mentor:</strong></label>
+    <select id="mentorSelect" style="
+        width:100%; 
+        padding:10px; 
+        margin-top:10px; 
+        border-radius:8px;">
+      <option value="">-- Choose Mentor --</option>
+    </select>
+  </div>
+
+  <!-- Student Table -->
+  <div id="studentTableSection" style="margin-top:30px;"></div>
+
+</div>
+
+<script>
+// Example mentors
+let mentors = JSON.parse(localStorage.getItem("mentorsList") || "[]");
+
+if(mentors.length === 0){
+  mentors = [
+    { name:"Mentor A", students:["Alice","Bob"] },
+    { name:"Mentor B", students:["Prajwal"] }
+  ];
+  localStorage.setItem("mentorsList", JSON.stringify(mentors));
+}
+
+// Populate dropdown
+const mentorSelect = document.getElementById("mentorSelect");
+mentors.forEach((m, index) => {
+  const opt = document.createElement("option");
+  opt.value = index;
+  opt.textContent = m.name;
+  mentorSelect.appendChild(opt);
+});
+
+// On mentor selection
+mentorSelect.onchange = function(){
+  const index = this.value;
+  if(index === "") return;
+
+  const mentor = mentors[index];
+  renderStudentTable(mentor);
+};
+
+// Render table EXACTLY like in your sketch
+function renderStudentTable(mentor){
+  const box = document.getElementById("studentTableSection");
+
+  let html = `
+    <div class="glass" style="padding:20px;">
+      <h3>${mentor.name} – Student List</h3>
+      <table style="width:100%; margin-top:20px; border-collapse:collapse;">
+        <tr style="background:rgba(255,255,255,0.15);">
+          <th style="padding:10px;">Student</th>
+          <th style="padding:10px;">Progress</th>
+          <th style="padding:10px;">Query</th>
+          <th style="padding:10px;">Response</th>
+          <th style="padding:10px;">Guidance</th>
+        </tr>
+  `;
+
+  mentor.students.forEach(st => {
+    const responseKey = "response_" + st;
+    const guidanceKey = "guidance_" + st;
+
+    html += `
+      <tr class="glass" style="text-align:center;">
+        <td style="padding:10px;">${st}</td>
+        <td style="padding:10px;">60%</td>
+
+        <td style="padding:10px;">
+          <button class="btn" onclick="viewQuery('${st}')">View</button>
+        </td>
+
+        <td style="padding:10px;">
+          <input id="resp_${st}" placeholder="Type response..." 
+                 style="padding:5px; border-radius:6px; width:120px;">
+          <button class="btn" onclick="saveResponse('${st}')">Send</button>
+        </td>
+
+        <td style="padding:10px;">
+          <input id="guid_${st}" placeholder="Type guidance..." 
+                 style="padding:5px; border-radius:6px; width:120px;">
+          <button class="btn" onclick="saveGuidance('${st}')">Send</button>
+        </td>
+      </tr>
+    `;
+  });
+
+  html += `</table></div>`;
+  box.innerHTML = html;
+}
+
+// Button Actions
+function viewQuery(studentName){
+  localStorage.setItem("teacherChatStudent", studentName);
+  window.location.href = "teacher_chat.html";
+}
+
+function saveResponse(studentName){
+  const input = document.getElementById("resp_" + studentName);
+  if(!input.value.trim()) return alert("Enter response");
+  localStorage.setItem("response_" + studentName, input.value.trim());
+  alert("Response sent!");
+  input.value = "";
+}
+
+function saveGuidance(studentName){
+  const input = document.getElementById("guid_" + studentName);
+  if(!input.value.trim()) return alert("Enter guidance");
+  localStorage.setItem("guidance_" + studentName, input.value.trim());
+  alert("Guidance sent!");
+  input.value = "";
+}
+</script>
+
+</body>
+</html>
